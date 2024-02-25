@@ -2,7 +2,7 @@
 """
 Creating a variable of instance Flask
 """
-from flask import Flask, jsonify
+from flask import Flask, jsonify, makke_response
 from models import storage
 from api.v1.views import app_views
 import os
@@ -20,8 +20,9 @@ def close_storage(exception):
 
 @app.errorhandler(404)
 def not_found(error):
+    """ Handling 404 requests """
     response = {"error": "Not found"}
-    return (jsonify(response), 404)
+    return make_response(jsonify(response), 404)
 
 
 if __name__ == '__main__':
