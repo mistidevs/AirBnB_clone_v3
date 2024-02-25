@@ -46,6 +46,7 @@ def create_state():
     state = new_state.to_dict()
     return jsonify(state), 201
 
+
 @app_views.route("/states/<state_id>", methods=["PUT"])
 def edit_state(state_id):
     if not request.get_json():
