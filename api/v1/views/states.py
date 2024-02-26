@@ -11,14 +11,14 @@ from api.v1.views import app_views
 @app_views.route("/states/", methods=["GET"])
 def get_states():
     states = [state.to_dict() for state in storage.all(State).values()]
-    return (jsonify(states))
+    return (jsonify(states)), 200
 
 
 @app_views.route("/states/<state_id>", methods=["GET"])
 def get_state(state_id):
     if storage.get(State, state_id) is not None:
         state = storage.get(State, state_id)
-        return jsonify(state.to_dict())
+        return jsonify(state.to_dict()), 200
     else:
         abort(404)
 
@@ -29,7 +29,7 @@ def delete_state(state_id):
         state = storage.get(State, state_id)
         storage.delete(state)
         storage.save()
-        return jsonify({})
+        return jsonify({}), 200
     else:
         abort(404)
 
@@ -56,6 +56,6 @@ def edit_state(state_id):
         state.name = request.json['name']
         storage.save()
         state = storage.get(State, state_id)
-        return jsonify(state.to_dict())
+        return jsonify(state.to_dict()), 200
     else:
         abort(404)
