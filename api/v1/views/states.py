@@ -10,12 +10,14 @@ from api.v1.views import app_views
 
 @app_views.route("/states/", methods=["GET"])
 def get_states():
+    """Obtaining all the States"""
     states = [state.to_dict() for state in storage.all(State).values()]
     return (jsonify(states)), 200
 
 
 @app_views.route("/states/<state_id>", methods=["GET"])
 def get_state(state_id):
+    """Obtaining a specific State"""
     if storage.get(State, state_id) is not None:
         state = storage.get(State, state_id)
         return jsonify(state.to_dict()), 200
@@ -25,6 +27,7 @@ def get_state(state_id):
 
 @app_views.route("/states/<state_id>", methods=["DELETE"])
 def delete_state(state_id):
+    """Deleting a State"""
     if storage.get(State, state_id) is not None:
         state = storage.get(State, state_id)
         storage.delete(state)
@@ -36,6 +39,7 @@ def delete_state(state_id):
 
 @app_views.route("/states/", methods=["POST"])
 def create_state():
+    """Creating a State"""
     if not request.get_json():
         abort(400, "Not a JSON")
     if 'name' not in request.get_json():
@@ -49,6 +53,7 @@ def create_state():
 
 @app_views.route("/states/<state_id>", methods=["PUT"])
 def edit_state(state_id):
+    """Editing a State"""
     if not request.get_json():
         abort(400, "Not a JSON")
     if storage.get(State, state_id) is not None:

@@ -11,6 +11,7 @@ from api.v1.views import app_views
 
 @app_views.route("/states/<state_id>/cities", methods=["GET"])
 def get_cities(state_id):
+    """Obtaining all Cities of a State"""
     if storage.get(State, state_id) is not None:
         state = storage.get(State, state_id)
         all_cities = storage.all(City).values()
@@ -23,6 +24,7 @@ def get_cities(state_id):
 
 @app_views.route("/cities/<city_id>", methods=["GET"])
 def get_city(city_id):
+    """Obtaining a specific City"""
     if storage.get(City, city_id) is not None:
         city = storage.get(City, city_id)
         return jsonify(city.to_dict()), 200
@@ -32,6 +34,7 @@ def get_city(city_id):
 
 @app_views.route("/cities/<city_id>", methods=["DELETE"])
 def delete_city(city_id):
+    """Deleting a City"""
     if storage.get(City, city_id) is not None:
         city = storage.get(City, city_id)
         storage.delete(city)
@@ -43,6 +46,7 @@ def delete_city(city_id):
 
 @app_views.route("/states/<state_id>/cities", methods=["POST"])
 def create_city(state_id):
+    """Creating a City"""
     if not request.get_json():
         abort(400, "Not a JSON")
     if 'name' not in request.get_json():
@@ -60,6 +64,7 @@ def create_city(state_id):
 
 @app_views.route("/cities/<city_id>", methods=["PUT"])
 def edit_city(city_id):
+    """Editing a City"""
     if not request.get_json():
         abort(400, "Not a JSON")
     
