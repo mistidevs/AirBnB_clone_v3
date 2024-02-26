@@ -17,8 +17,8 @@ def get_reviews(place_id):
         place = storage.get(Place, place_id)
         all_reviews = storage.all(Review).values()
         reviews = [review.to_dict() for review in all_reviews]
-        match = [review for review in reviews if review['place_id'] == place.id]
-        return jsonify(match)
+        mat = [review for review in reviews if review['place_id'] == place.id]
+        return jsonify(mat)
     else:
         abort(404)
 
