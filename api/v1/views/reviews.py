@@ -17,8 +17,8 @@ def get_reviews(place_id):
         place = storage.get(Place, place_id)
         all_reviews = storage.all(Review).values()
         reviews_dict = [review.to_dict() for review in all_reviews]
-        reviews_list = [review for review in reviews_dict if review['place_id'] == place.id]
-        return jsonify(reviews_list)
+        match = [review for review in reviews_dict if review['place_id'] == place.id]
+        return jsonify(match)
     else:
         abort(404)
 
@@ -54,12 +54,12 @@ def create_review(place_id):
         abort(400, "Missing user_id")
     if 'test' not in request.get_json():
         abort(400., "Missing text")
-    
+
     if storage.get(Place, place_id) is not None:
         if storage.get(User, request.json['user_id']) is not None:
-            new_review = Review(text = request.json['text'], 
-                                place_id = place_id,
-                                user_id = request.json['user_id'])
+            new_review = Review(text=request.json['text'], 
+                                place_id=place_id,
+                                user_id=request.json['user_id'])
             storage.new(new_review)
             storage.save()
             review = new_review.to_dict()
@@ -75,7 +75,7 @@ def edit_review(review_id):
     """Editing a Review"""
     if not request.get_json():
         abort(400, "Not a JSON")
-    
+
     if storage.get(Review, review_id) is not None:
         review = storage.get(Review, review_id)
         if 'text' in request.get_json():

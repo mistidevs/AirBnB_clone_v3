@@ -18,8 +18,8 @@ def get_places(city_id):
         city = storage.get(City, city_id)
         all_places = storage.all(City).values()
         places_dict = [place.to_dict() for place in all_places]
-        places_list = [place for place in places_dict if place['city_id'] == city.id]
-        return jsonify(places_list)
+        match = [place for place in places_dict if place['city_id'] == city.id]
+        return jsonify(match)
     else:
         abort(404)
 
@@ -55,12 +55,12 @@ def create_place(city_id):
         abort(400, "Missing user id")
     if 'name' not in request.get_json():
         abort(400, "Missing name")
-    
+
     if storage.get(City, city_id) is not None:
         if storage.get(User, request.json['user_id']) is not None:
-            new_place = Place(name = request.json['name'], 
-                             user_id = request.json['user_id'],
-                             city_id = city_id)
+            new_place = Place(name=request.json['name'],
+                              user_id=request.json['user_id'],
+                              city_id=city_id)
             storage.new(new_place)
             storage.save()
             place = new_place.to_dict()
@@ -76,7 +76,7 @@ def edit_place(place_id):
     """Editing a Place"""
     if not request.get_json():
         abort(400, "Not a JSON")
-    
+
     if storage.get(Place, place_id) is not None:
         place = storage.get(Place, place_id)
         if 'name' in request.get_json():

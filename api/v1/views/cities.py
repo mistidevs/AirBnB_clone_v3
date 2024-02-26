@@ -16,8 +16,8 @@ def get_cities(state_id):
         state = storage.get(State, state_id)
         all_cities = storage.all(City).values()
         cities_dict = [city.to_dict() for city in all_cities]
-        cities_list = [city for city in cities_dict if city['state_id'] == state.id]
-        return jsonify(cities_list)
+        match = [city for city in cities_dict if city['state_id'] == state.id]
+        return jsonify(match)
     else:
         abort(404)
 
@@ -51,7 +51,7 @@ def create_city(state_id):
         abort(400, "Not a JSON")
     if 'name' not in request.get_json():
         abort(400, "Missing name")
-    
+
     if storage.get(State, state_id) is not None:
         new_city = City(name=request.json['name'], state_id=state_id)
         storage.new(new_city)
@@ -67,12 +67,12 @@ def edit_city(city_id):
     """Editing a City"""
     if not request.get_json():
         abort(400, "Not a JSON")
-    
+
     if storage.get(City, city_id) is not None:
         city = storage.get(City, city_id)
         city.name = request.json['name']
         storage.save()
-        city = storage.get(City,city_id)
+        city = storage.get(City, city_id)
         return jsonify(city.to_dict())
     else:
         abort(404)

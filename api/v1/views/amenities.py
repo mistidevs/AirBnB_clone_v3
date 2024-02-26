@@ -11,8 +11,8 @@ from api.v1.views import app_views
 @app_views.route("/amenities/", methods=["GET"])
 def get_amenities():
     """Obtaining all the Amenities"""
-    amenities = [amenity.to_dict() for amenity in storage.all(Amenity).values()]
-    return (jsonify(amenities)), 200
+    amens = [amenity.to_dict() for amenity in storage.all(Amenity).values()]
+    return (jsonify(amens)), 200
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["GET"])
