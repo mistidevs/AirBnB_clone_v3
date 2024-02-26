@@ -25,19 +25,8 @@ class User(BaseModel, Base):
         first_name = ""
         last_name = ""
 
-    @property
-    def password(self):
-        """Password getter"""
-        return self.password
-    
-    @password.setter
-    def password(self, pwd):
-        """Password setter"""
-        self.password = hashlib.md5(pwd.encode()).hexdigest()
-
     def __init__(self, *args, **kwargs):
         """initializes user"""
-        if 'password' in kwargs:
-            pwd = kwargs['password']
-            kwargs['password'] = hashlib.md5(pwd.encode()).hexdigest()
         super().__init__(*args, **kwargs)
+        pwd = self.password
+        self.password = hashlib.md5(pwd.encode()).hexdigest()
