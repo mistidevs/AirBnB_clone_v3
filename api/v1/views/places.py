@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Cities API endpoint
+Places API endpoint
 """
 from models import storage
 import models
@@ -78,7 +78,7 @@ def edit_place(place_id):
         abort(400, "Not a JSON")
     
     if storage.get(Place, place_id) is not None:
-        place = storage.get(City, place_id)
+        place = storage.get(Place, place_id)
         if 'name' in request.get_json():
             place.name = request.json['name']
         if 'description' in request.get_json():
@@ -98,7 +98,7 @@ def edit_place(place_id):
         if 'amenity_id' in request.get_json() and models.storage_t != 'db':
             place.amenity_ids.append(request.json['amenity_id'])
         storage.save()
-        place = storage.get(City,place_id)
-        return jsonify(place.to_dict())
+        place = storage.get(Place, place_id)
+        return jsonify(place.to_dict()), 200
     else:
         abort(404)
