@@ -13,8 +13,8 @@ from api.v1.views import app_views
 def get_cities(state_id):
     if storage.get(State, state_id) is not None:
         state = storage.get(State, state_id)
-        cities = state.cities()
-        cities_list = [city.to_dict() for city in cities]
+        all_cities = storage.all(City)
+        cities_list = [city.to_dict() for city in all_cities if city.state_id == state.id]
         return jsonify(cities_list)
     else:
         abort(404)
@@ -23,7 +23,7 @@ def get_cities(state_id):
 @app_views.route("/cities/<city_id>", methods=["GET"])
 def get_city(city_id):
     if storage.get(City, city_id) is not None:
-        city = storage.get(city, city_id)
+        city = storage.get(City, city_id)
         return jsonify(city.to_dict()), 200
     else:
         abort(404)
