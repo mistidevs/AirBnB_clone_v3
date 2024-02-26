@@ -53,7 +53,8 @@ def edit_state(state_id):
         abort(400, "Not a JSON")
     if storage.get(State, state_id) is not None:
         state = storage.get(State, state_id)
-        state.name = request.json['name']
+        if 'name' in request.get_json():
+            state.name = request.json['name']
         storage.save()
         state = storage.get(State, state_id)
         return jsonify(state.to_dict()), 200

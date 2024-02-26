@@ -38,9 +38,12 @@ def delete_user(user_id):
 def create_user():
     if not request.get_json():
         abort(400, "Not a JSON")
-    if 'name' not in request.get_json():
-        abort(400, "Missing name")
-    new_user = User(name=request.json['name'])
+    if 'email' not in request.get_json():
+        abort(400, "Missing email")
+    if 'password' not in request.get_json():
+        abort(400, "Missing password")
+    new_user = User(email=request.json['email'], 
+                    password=request.json['password'])
     storage.new(new_user)
     storage.save()
     user = new_user.to_dict()
@@ -53,7 +56,12 @@ def edit_user(user_id):
         abort(400, "Not a JSON")
     if storage.get(User, user_id) is not None:
         user = storage.get(User, user_id)
-        user.name = request.json['name']
+        if 'first_name' in request.get_json():
+            user.first_name = request.json['first_name']
+        if 'last_name' in request.get_json():
+            user.last_name = request.json['last_name']
+        if 'password' in request.get_json():
+            user.password = request.json['password']
         storage.save()
         user = storage.get(User, user_id)
         return jsonify(user.to_dict()), 200
