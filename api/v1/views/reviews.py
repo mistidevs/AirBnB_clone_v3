@@ -16,8 +16,8 @@ def get_reviews(place_id):
     if storage.get(Place, place_id) is not None:
         place = storage.get(Place, place_id)
         all_reviews = storage.all(Review).values()
-        reviews_dict = [review.to_dict() for review in all_reviews]
-        match = [review for review in reviews_dict if review['place_id'] == place.id]
+        reviews = [review.to_dict() for review in all_reviews]
+        match = [review for review in reviews if review['place_id'] == place.id]
         return jsonify(match)
     else:
         abort(404)
@@ -57,7 +57,7 @@ def create_review(place_id):
 
     if storage.get(Place, place_id) is not None:
         if storage.get(User, request.json['user_id']) is not None:
-            new_review = Review(text=request.json['text'], 
+            new_review = Review(text=request.json['text'],
                                 place_id=place_id,
                                 user_id=request.json['user_id'])
             storage.new(new_review)
