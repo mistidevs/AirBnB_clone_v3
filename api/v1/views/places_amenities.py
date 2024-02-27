@@ -22,7 +22,7 @@ def get_amenities_by_place(place_id):
             amenity_ids = place.amenity_ids
             all = [storage.get(Amenity, amenity) for amenity in amenity_ids]
         amenities = [amenity.to_dict() for amenity in all]
-        mat = [review for review in amenities if review['place_id'] == place.id]
+        mat = [review for review in amenities if review.get('place_id') == place.id]
         return jsonify(mat)
     else:
         abort(404)
