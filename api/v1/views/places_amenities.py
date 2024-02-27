@@ -12,7 +12,7 @@ from api.v1.views import app_views
 
 
 @app_views.route("/places/<place_id>/amenities", methods=["GET"])
-def get_amenities(place_id):
+def get_amenities_by_place(place_id):
     """Obtaining all Amenities of a Place"""
     if storage.get(Place, place_id) is not None:
         place = storage.get(Place, place_id)
