@@ -79,24 +79,10 @@ def edit_place(place_id):
 
     if storage.get(Place, place_id) is not None:
         place = storage.get(Place, place_id)
-        if 'name' in request.get_json():
-            place.name = request.json['name']
-        if 'description' in request.get_json():
-            place.description = request.json['description']
-        if 'number_rooms' in request.get_json():
-            place.number_rooms = request.json['number_rooms']
-        if 'number_bathrooms' in request.get_json():
-            place.number_bathrooms = request.json['number_bathrooms']
-        if 'max_guest' in request.get_json():
-            place.max_guest = request.json['max_guest']
-        if 'price_by_night' in request.get_json():
-            place.price_by_night = request.json['price_by_night']
-        if 'latitude' in request.get_json():
-            place.latitude = request.json['latitude']
-        if 'longitude' in request.get_json():
-            place.longitude = request.json['longitude']
-        if 'amenity_id' in request.get_json() and models.storage_t != 'db':
-            place.amenity_ids.append(request.json['amenity_id'])
+        data = request.get_json()
+        for key, value in data.items():
+            if key not in ['id', 'user_id', 'city_id', 'created_at', 'updated_at']:
+                setattr(place, key, value) 
         storage.save()
         place = storage.get(Place, place_id)
         return jsonify(place.to_dict()), 200
