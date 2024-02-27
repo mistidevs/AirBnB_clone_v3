@@ -49,7 +49,7 @@ def link_amenity(place_id, amenity_id):
 
     
 @app_views.route("/places/<place_id>/amenities/<amenity_id>", methods=["DELETE"])
-def delete_amenity(place_id, amenity_id):
+def delete_amenity_by_place(place_id, amenity_id):
     """Deleting an Amenity"""
     if storage.get(Place, place_id) is not None:
         place = storage.get(Place, place_id)
