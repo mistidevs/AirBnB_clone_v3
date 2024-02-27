@@ -49,7 +49,7 @@ def delete_place(place_id):
 @app_views.route("/cities/<city_id>/places", methods=["POST"])
 def create_place(city_id):
     """Creating a Place"""
-    if not request.get_json():
+    if not request.is_json:
         abort(400, "Not a JSON")
     if 'user_id' not in request.get_json():
         abort(400, "Missing user id")
@@ -74,7 +74,7 @@ def create_place(city_id):
 @app_views.route("/places/<place_id>", methods=["PUT"])
 def edit_place(place_id):
     """Editing a Place"""
-    if not request.get_json():
+    if not request.is_json:
         abort(400, "Not a JSON")
 
     if storage.get(Place, place_id) is not None:

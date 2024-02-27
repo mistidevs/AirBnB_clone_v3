@@ -40,7 +40,7 @@ def delete_user(user_id):
 @app_views.route("/users/", methods=["POST"])
 def create_user():
     """Creating a User"""
-    if not request.get_json():
+    if not request.is_json:
         abort(400, "Not a JSON")
     if 'email' not in request.get_json():
         abort(400, "Missing email")
@@ -57,7 +57,7 @@ def create_user():
 @app_views.route("/users/<user_id>", methods=["PUT"])
 def edit_user(user_id):
     """Editing a User"""
-    if not request.get_json():
+    if not request.is_json:
         abort(400, "Not a JSON")
     if storage.get(User, user_id) is not None:
         user = storage.get(User, user_id)

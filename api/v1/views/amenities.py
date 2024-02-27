@@ -40,7 +40,7 @@ def delete_amenity(amenity_id):
 @app_views.route("/amenities/", methods=["POST"])
 def create_amenity():
     """Creating an Amenity"""
-    if not request.get_json():
+    if not request.is_json:
         abort(400, "Not a JSON")
     if 'name' not in request.get_json():
         abort(400, "Missing name")
@@ -54,7 +54,7 @@ def create_amenity():
 @app_views.route("/amenities/<amenity_id>", methods=["PUT"])
 def edit_amenity(amenity_id):
     """Editing an Amenity"""
-    if not request.get_json():
+    if not request.is_json:
         abort(400, "Not a JSON")
     if storage.get(Amenity, amenity_id) is not None:
         amenity = storage.get(Amenity, amenity_id)
