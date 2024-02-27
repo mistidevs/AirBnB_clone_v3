@@ -15,8 +15,8 @@ def get_cities(state_id):
     if storage.get(State, state_id) is not None:
         state = storage.get(State, state_id)
         all_cities = storage.all(City).values()
-        cities_dict = [city.to_dict() for city in all_cities]
-        match = [city for city in cities_dict if city.get('state_id') == state.id]
+        cities = [city.to_dict() for city in all_cities]
+        match = [city for city in cities if city.get('state_id') == state.id]
         return jsonify(match)
     else:
         abort(404)
